@@ -11,6 +11,7 @@ const ShowCards = ({ columns, removeNote, RemoveColumn }) => {
             id={id}
             className="card-body text-dark p-2 border-0 text-start"
             onClick={() => {
+              navigator.clipboard.writeText(note);
               const ele = document.getElementById(id).classList;
               ele.toggle("text-muted");
               ele.toggle("text-decoration-line-through");
