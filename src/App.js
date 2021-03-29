@@ -39,6 +39,7 @@ class App extends Component {
     var Newcolumns = this.state.columns;
     delete Newcolumns[key];
     this.setState({ columns: Newcolumns });
+    localStorage.setItem("col", JSON.stringify(this.state.columns));
   };
 
   ResetAll = () => {
@@ -60,7 +61,11 @@ class App extends Component {
           AddCol={this.AddColumn}
           remCol={this.RemoveColumn}
         />
-        <ShowCards columns={this.state.columns} removeNote={this.RemoveNote} />
+        <ShowCards
+          columns={this.state.columns}
+          removeNote={this.RemoveNote}
+          RemoveColumn={this.RemoveColumn}
+        />
         <ShowInfo columns={this.state.columns} ResetAll={this.ResetAll} />
       </div>
     );

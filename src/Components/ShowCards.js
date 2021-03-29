@@ -1,6 +1,6 @@
 import React from "react";
 
-const ShowCards = ({ columns, removeNote }) => {
+const ShowCards = ({ columns, removeNote, RemoveColumn }) => {
   const cards = Object.entries(columns).map((item) => {
     const title = item[1][0];
     const notes = item[1].slice(1).map((note, index) => {
@@ -16,9 +16,9 @@ const ShowCards = ({ columns, removeNote }) => {
               ele.toggle("text-decoration-line-through");
             }}
           >
-            {note}
+            <span className="align-middle">{note}</span>
             <button
-              className="btn btn-outline-danger float-end"
+              className="btn btn-outline-danger card-btn float-end border-0 bg-transparent"
               onClick={() => {
                 removeNote(item[0], index + 1);
               }}
@@ -32,7 +32,17 @@ const ShowCards = ({ columns, removeNote }) => {
     return (
       <div className="col text-light">
         <div className="border rounded-2 p-2">
-          <p className="lead text-capitalize">{title}</p>
+          <p className="lead text-capitalize mb-4">
+            {title}
+            <button
+              className="btn btn-outline-danger float-end border-0"
+              onClick={() => {
+                RemoveColumn(item[0]);
+              }}
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </p>
           <div className="cards">{notes <= 0 ? "No Notes Yet!" : notes}</div>
         </div>
       </div>
