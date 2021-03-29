@@ -1,6 +1,6 @@
 import React from "react";
 
-const ShowCards = ({ columns }) => {
+const ShowCards = ({ columns, removeNote }) => {
   const cards = Object.entries(columns).map((item) => {
     const title = item[1][0];
     const notes = item[1].slice(1).map((note, index) => {
@@ -17,6 +17,14 @@ const ShowCards = ({ columns }) => {
             }}
           >
             {note}
+            <button
+              className="btn btn-outline-danger float-end"
+              onClick={() => {
+                removeNote(item[0], index + 1);
+              }}
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
           </button>
         </div>
       );

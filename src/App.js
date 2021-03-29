@@ -9,6 +9,12 @@ class App extends Component {
     columns: {},
   };
 
+  componentDidMount() {
+    var col = JSON.parse(localStorage.getItem("col"));
+    console.log(col);
+    if (col !== null) this.setState({ columns: col });
+  }
+
   AddNote = (key, note) => {
     var Newcolumns = this.state.columns;
     Newcolumns[key].push(note);
@@ -19,6 +25,13 @@ class App extends Component {
     var Newcolumns = this.state.columns;
     if (Newcolumns[key] !== undefined) Newcolumns[key][0] = [name];
     else Newcolumns[key] = [name];
+    this.setState({ columns: Newcolumns });
+    localStorage.setItem("col", JSON.stringify(this.state.columns));
+  };
+
+  RemoveNote = (key, index) => {
+    var Newcolumns = this.state.columns;
+    Newcolumns[key].splice(index, 1);
     this.setState({ columns: Newcolumns });
   };
 
@@ -47,8 +60,7 @@ class App extends Component {
           AddCol={this.AddColumn}
           remCol={this.RemoveColumn}
         />
-        <ShowCards columns={this.state.columns} />
-
+        <ShowCards columns={this.state.columns} removeNote={this.RemoveNote} />
         <ShowInfo columns={this.state.columns} ResetAll={this.ResetAll} />
       </div>
     );
