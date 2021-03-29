@@ -18,7 +18,7 @@ const ShowCards = ({ columns, removeNote, RemoveColumn }) => {
           >
             <span className="align-middle">{note}</span>
             <button
-              className="btn btn-outline-danger card-btn float-end border-0 bg-transparent"
+              className="btn btn-outline-danger card-btn float-end border-0 bg-transparent "
               onClick={() => {
                 removeNote(item[0], index + 1);
               }}
@@ -32,10 +32,10 @@ const ShowCards = ({ columns, removeNote, RemoveColumn }) => {
     return (
       <div className="col text-light">
         <div className="border rounded-2 p-2">
-          <p className="lead text-capitalize mb-4">
+          <p className="lead text-capitalize mb-4 position-relative">
             {title}
             <button
-              className="btn btn-outline-danger float-end border-0"
+              className="btn btn-outline-danger float-end border-0 position-absolute end-0"
               onClick={() => {
                 RemoveColumn(item[0]);
               }}
