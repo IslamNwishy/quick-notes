@@ -5,7 +5,7 @@ const ShowInfo = ({ columns, ResetAll }) => {
     return <li>{item[0] + " = " + item[1][0]}</li>;
   });
   return (
-    <div className="container-sm fixed-bottom">
+    <footer className="container ">
       <div className="d-flex justify-content-around align-items-center mb-5">
         <div className="text-light border rounded-2 text-start col-4 p-3 ">
           <p className="mb-1">
@@ -35,7 +35,7 @@ const ShowInfo = ({ columns, ResetAll }) => {
           Reset
         </button>
       </div>
-    </div>
+    </footer>
   );
 };
 

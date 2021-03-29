@@ -42,6 +42,12 @@ class App extends Component {
     localStorage.setItem("col", JSON.stringify(this.state.columns));
   };
 
+  // saveNote = (key, index) => {
+  //   var col = JSON.parse(localStorage.getItem("col"));
+  //   col[key].push(this.state.columns[key][index]);
+  //   localStorage.setItem("col", col);
+  // };
+
   ResetAll = () => {
     var Newcolumns = this.state.columns;
     var keys = Object.keys(Newcolumns);
@@ -53,7 +59,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App container">
+      <div className="App container ">
         <h1 className="mt-5 text-white">Quick Notes</h1>
         <InputParser
           AddNote={this.AddNote}

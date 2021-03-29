@@ -42,3 +42,7 @@ html {
 .card-btn:hover {
   color: black;
 }
+
+footer {
+  margin-top: 8%;
+}
