@@ -1,23 +1,23 @@
 import React from "react";
 
-const ShowCards = ({ columns, removeNote, RemoveColumn }) => {
+const ShowCards = ({ columns, removeNote, RemoveColumn, pin }) => {
   const cards = Object.entries(columns).map((item) => {
     const title = item[1][0];
     const notes = item[1].slice(1).map((note, index) => {
       const id = "btn-" + item[0] + "-" + index;
       return (
         <div className="card mx-2 my-3">
-          <button
+          <div
             id={id}
             className="card-body text-dark p-2 border-0 text-start"
             onClick={() => {
-              navigator.clipboard.writeText(note);
+              navigator.clipboard.writeText(note[0]);
               const ele = document.getElementById(id).classList;
               ele.toggle("text-muted");
               ele.toggle("text-decoration-line-through");
             }}
           >
-            <span className="align-middle">{note}</span>
+            <span className="align-middle">{note[0]}</span>
             <button
               className="btn btn-outline-danger card-btn float-end border-0 bg-transparent "
               onClick={() => {
@@ -26,7 +26,20 @@ const ShowCards = ({ columns, removeNote, RemoveColumn }) => {
             >
               <i class="fas fa-trash-alt"></i>
             </button>
-          </button>
+            <button
+              className={
+                note[1] > 0
+                  ? "btn card-btn-2 float-end border-0 bg-transparent text-warning"
+                  : "btn card-btn-2 float-end border-0 bg-transparent text-info"
+              }
+              onClick={(e) => {
+                pin(item[0], index + 1);
+                if (e.stopPropagation) e.stopPropagation();
+              }}
+            >
+              <i class="fas fa-thumbtack"></i>
+            </button>
+          </div>
         </div>
       );
     });

@@ -40,7 +40,16 @@ html {
   }
 }
 .card-btn:hover {
-  color: black;
+  color: black !important;
+}
+.card-btn-2:active {
+  border: none !important;
+  outline: none !important;
+}
+.card-btn-2:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 footer {

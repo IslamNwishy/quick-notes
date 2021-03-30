@@ -7,6 +7,7 @@ class App extends Component {
   state = {
     input: "",
     columns: {},
+    pinned: {},
   };
 
   componentDidMount() {
@@ -17,44 +18,70 @@ class App extends Component {
 
   AddNote = (key, note) => {
     var Newcolumns = this.state.columns;
-    Newcolumns[key].push(note);
+    Newcolumns[key].push([note, 0]);
     this.setState({ columns: Newcolumns });
   };
 
   AddColumn = (key, name) => {
     var Newcolumns = this.state.columns;
-    if (Newcolumns[key] !== undefined) Newcolumns[key][0] = [name];
-    else Newcolumns[key] = [name];
+    var cols = JSON.parse(localStorage.getItem("col"));
+    if (cols === null) cols = {};
+    if (Newcolumns[key] !== undefined) {
+      Newcolumns[key][0] = name;
+      cols[key][0] = name;
+    } else {
+      Newcolumns[key] = [name];
+      cols[key] = [name];
+    }
     this.setState({ columns: Newcolumns });
-    localStorage.setItem("col", JSON.stringify(this.state.columns));
+    localStorage.setItem("col", JSON.stringify(cols));
   };
 
   RemoveNote = (key, index) => {
     var Newcolumns = this.state.columns;
+    if (Newcolumns[key][index][1] > 0) {
+      var col = JSON.parse(localStorage.getItem("col"));
+      col[key].splice(Newcolumns[key][index][1], 1);
+      localStorage.setItem("col", JSON.stringify(col));
+    }
     Newcolumns[key].splice(index, 1);
     this.setState({ columns: Newcolumns });
   };
 
   RemoveColumn = (key) => {
     var Newcolumns = this.state.columns;
+    var cols = JSON.parse(localStorage.getItem("col"));
     delete Newcolumns[key];
+    delete cols[key];
     this.setState({ columns: Newcolumns });
-    localStorage.setItem("col", JSON.stringify(this.state.columns));
+    localStorage.setItem("col", JSON.stringify(cols));
   };
 
-  // saveNote = (key, index) => {
-  //   var col = JSON.parse(localStorage.getItem("col"));
-  //   col[key].push(this.state.columns[key][index]);
-  //   localStorage.setItem("col", col);
-  // };
+  PinNote = (key, index) => {
+    if (this.state.columns[key][index][1] > 0) this.UnpinNote(key, index);
+    else {
+      console.log("pinned");
+      var Newcolumns = this.state.columns;
+      var col = JSON.parse(localStorage.getItem("col"));
+      Newcolumns[key][index][1] = col[key].length;
+      this.setState({ columns: Newcolumns });
+      col[key].push(this.state.columns[key][index]);
+      console.log(col);
+      localStorage.setItem("col", JSON.stringify(col));
+    }
+  };
+
+  UnpinNote = (key, index) => {
+    var Newcolumns = this.state.columns;
+    var col = JSON.parse(localStorage.getItem("col"));
+    col[key].splice(Newcolumns[key][index][1], 1);
+    Newcolumns[key][index][1] = 0;
+    this.setState({ columns: Newcolumns });
+    localStorage.setItem("col", JSON.stringify(col));
+  };
 
   ResetAll = () => {
-    var Newcolumns = this.state.columns;
-    var keys = Object.keys(Newcolumns);
-    for (var i = 0; i < keys.length; i++) {
-      Newcolumns[keys[i]] = [Newcolumns[keys[i]][0]];
-    }
-    this.setState({ columns: Newcolumns });
+    window.location.reload();
   };
 
   render() {
@@ -71,6 +98,7 @@ class App extends Component {
           columns={this.state.columns}
           removeNote={this.RemoveNote}
           RemoveColumn={this.RemoveColumn}
+          pin={this.PinNote}
         />
         <ShowInfo columns={this.state.columns} ResetAll={this.ResetAll} />
       </div>
